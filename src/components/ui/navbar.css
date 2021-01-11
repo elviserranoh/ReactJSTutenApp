@@ -1,0 +1,21 @@
+.icon-account {
+  background-image: url("./assets/image/user_account.png");
+  background-size: cover;
+  border: 1px solid #f2f2f2;
+  display: block;
+  width: 25px;
+  height: 25px;
+  border-radius: 10px;
+}
+
+.ml-1 {
+  margin-left: 16px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.bg-white {
+  background-color: #fff;
+}
