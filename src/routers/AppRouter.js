@@ -19,7 +19,7 @@ export const AppRouter = () => {
   }, [dispatch]);
 
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL + '/'}>
       <div>
         <Switch>
           <PublicRoute
@@ -29,7 +29,6 @@ export const AppRouter = () => {
             isAuthenticated={isAuthenticated}
           />
           <PrivateRoute
-            exact
             path="/"
             component={DashboardRoute}
             isAuthenticated={isAuthenticated}
