@@ -19,7 +19,7 @@ export const AppRouter = () => {
   }, [dispatch]);
 
   return (
-    <Router basename={process.env.PUBLIC_URL + '/ReactJSTutenApp/'}>
+    <Router>
       <div>
         <Switch>
           <PublicRoute
