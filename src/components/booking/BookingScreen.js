@@ -26,20 +26,24 @@ export default function BookingScreen() {
   const { bookingFilterValue, bookingFilter, bookingField } = filterValues;
 
   const handleSubmitFilter = () => {
-    if (bookingField === "bookingId") {
-      dispatch(
-        filterBookingById({
-          value: bookingFilterValue,
-          filtro: bookingFilter,
-        })
-      );
-    } else if (bookingField === "bookingPrice") {
-      dispatch(
-        filterBookingByPrice({
-          value: bookingFilterValue,
-          filtro: bookingFilter,
-        })
-      );
+    if (!bookingFilterValue) {
+      dispatch(startLoadBookingByEmail(formValues.email));
+    } else {
+      if (bookingField === "bookingId") {
+        dispatch(
+          filterBookingById({
+            value: bookingFilterValue,
+            filtro: bookingFilter,
+          })
+        );
+      } else if (bookingField === "bookingPrice") {
+        dispatch(
+          filterBookingByPrice({
+            value: bookingFilterValue,
+            filtro: bookingFilter,
+          })
+        );
+      }
     }
   };
 
