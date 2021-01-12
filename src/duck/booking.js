@@ -7,9 +7,39 @@ export const bookingReducer = (state = [], action) => {
     case LOAD_BOOKING:
       return [...action.payload];
     case FILTER_BOOKING_BY_ID:
-      return state.filter((book) => parseInt(book.bookingId) === parseInt(action.payload));
+      const bookingFilterById =
+        action.payload.filtro === "igual"
+          ? state.filter(
+              (book) =>
+                parseInt(book.bookingId) === parseInt(action.payload.value)
+            )
+          : action.payload.filtro === "mayor_igual"
+          ? state.filter(
+              (book) =>
+                parseInt(book.bookingId) >= parseInt(action.payload.value)
+            )
+          : state.filter(
+              (book) =>
+                parseInt(book.bookingId) <= parseInt(action.payload.value)
+            );
+      return bookingFilterById;
     case FILTER_BOOKING_BY_PRICE:
-      return state.filter((book) => parseInt(book.bookingPrice) === parseInt(action.payload));
+      const bookingFilterByPrice =
+        action.payload.filtro === "igual"
+          ? state.filter(
+              (book) =>
+                parseInt(book.bookingPrice) === parseInt(action.payload.value)
+            )
+          : action.payload.filtro === "mayor_igual"
+          ? state.filter(
+              (book) =>
+                parseInt(book.bookingPrice) >= parseInt(action.payload.value)
+            )
+          : state.filter(
+              (book) =>
+                parseInt(book.bookingPrice) <= parseInt(action.payload.value)
+            );
+      return bookingFilterByPrice;
     default:
       return state;
   }
@@ -21,14 +51,14 @@ export const loadBooking = (bookings) => ({
   payload: bookings,
 });
 
-export const filterBookingById = (bookingId) => ({
+export const filterBookingById = (payload) => ({
   type: FILTER_BOOKING_BY_ID,
-  payload: bookingId,
+  payload,
 });
 
-export const filterBookingByPrice = (bookingPrice) => ({
+export const filterBookingByPrice = (payload) => ({
   type: FILTER_BOOKING_BY_PRICE,
-  payload: bookingPrice,
+  payload,
 });
 
 // Middleware - Thunk

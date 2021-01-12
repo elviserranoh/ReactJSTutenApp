@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { filterBookingByPrice, filterBookingById, startLoadBookingByEmail } from "../../duck/booking";
+import {
+  filterBookingByPrice,
+  filterBookingById,
+  startLoadBookingByEmail,
+} from "../../duck/booking";
 import useForm from "../hooks/useForm";
 
 import "./booking.css";
@@ -14,16 +18,29 @@ export default function BookingScreen() {
   });
 
   const [filterValues, handleFilterChanged] = useForm({
-    bookingFilter: "bookingId",
+    bookingField: "bookingId",
+    bookingFilter: "igual",
     bookingFilterValue: "",
   });
 
+  const { bookingFilterValue, bookingFilter, bookingField } = filterValues;
+
   const handleSubmitFilter = () => {
-   if(filterValues.bookingFilter === "bookingId") {
-    dispatch(filterBookingById(filterValues.bookingFilterValue));
-   } else if(filterValues.bookingFilter === "bookingPrice") {
-    dispatch(filterBookingByPrice(filterValues.bookingFilterValue));
-   }
+    if (bookingField === "bookingId") {
+      dispatch(
+        filterBookingById({
+          value: bookingFilterValue,
+          filtro: bookingFilter,
+        })
+      );
+    } else if (bookingField === "bookingPrice") {
+      dispatch(
+        filterBookingByPrice({
+          value: bookingFilterValue,
+          filtro: bookingFilter,
+        })
+      );
+    }
   };
 
   useEffect(() => {
@@ -58,22 +75,31 @@ export default function BookingScreen() {
           </label>
           <div className="d-flex flex-row">
             <select
-              name="bookingFilter"
+              name="bookingField"
               onChange={handleFilterChanged}
-              value={filterValues.bookingFilter}
+              value={filterValues.bookingField}
             >
               <option value="bookingId">ID</option>
               <option value="bookingPrice">Price</option>
             </select>
             <input
               type="text"
-              className="form-control"
+              className="form-control mx-3"
               name="bookingFilterValue"
               value={filterValues.bookingFilterValue}
               onChange={handleFilterChanged}
               id="bookingFilterValue"
               placeholder=" Ej. 233"
             />
+            <select
+              name="bookingFilter"
+              onChange={handleFilterChanged}
+              value={filterValues.bookingFilter}
+            >
+              <option value="igual">Igual</option>
+              <option value="mayor_igual">Mayor o Igual</option>
+              <option value="menor_igual">Menor o Igual</option>
+            </select>
             <button
               onClick={handleSubmitFilter}
               className="btn btn-primary btn-sm ml-1"
@@ -104,7 +130,7 @@ export default function BookingScreen() {
             </tr>
           ))}
 
-          {state.length == 0 && (
+          {state.length === 0 && (
             <tr>
               <td colSpan="5">
                 <p className="text-center">No Hay registros para el cliente</p>
