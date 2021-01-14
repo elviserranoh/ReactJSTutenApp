@@ -12,8 +12,6 @@ export default function BookingScreen() {
 
   const [bookings, setBookings] = useState([...state]);
 
-  console.log(bookings);
-
   const [formValues, handleInputChanged] = useForm({
     email: "contacto@tuten.cl",
   });
