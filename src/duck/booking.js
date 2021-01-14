@@ -6,40 +6,6 @@ export const bookingReducer = (state = [], action) => {
   switch (action.type) {
     case LOAD_BOOKING:
       return [...action.payload];
-    case FILTER_BOOKING_BY_ID:
-      const bookingFilterById =
-        action.payload.filtro === "igual"
-          ? state.filter(
-              (book) =>
-                parseInt(book.bookingId) === parseInt(action.payload.value)
-            )
-          : action.payload.filtro === "mayor_igual"
-          ? state.filter(
-              (book) =>
-                parseInt(book.bookingId) >= parseInt(action.payload.value)
-            )
-          : state.filter(
-              (book) =>
-                parseInt(book.bookingId) <= parseInt(action.payload.value)
-            );
-      return bookingFilterById;
-    case FILTER_BOOKING_BY_PRICE:
-      const bookingFilterByPrice =
-        action.payload.filtro === "igual"
-          ? state.filter(
-              (book) =>
-                parseInt(book.bookingPrice) === parseInt(action.payload.value)
-            )
-          : action.payload.filtro === "mayor_igual"
-          ? state.filter(
-              (book) =>
-                parseInt(book.bookingPrice) >= parseInt(action.payload.value)
-            )
-          : state.filter(
-              (book) =>
-                parseInt(book.bookingPrice) <= parseInt(action.payload.value)
-            );
-      return bookingFilterByPrice;
     default:
       return state;
   }

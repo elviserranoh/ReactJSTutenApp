@@ -1,10 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  filterBookingByPrice,
-  filterBookingById,
-  startLoadBookingByEmail,
-} from "../../duck/booking";
+import { startLoadBookingByEmail } from "../../duck/booking";
+import { getBookingByIdAndFilter, getBookingByPriceAndFilter } from "../../duck/selectors";
 import useForm from "../hooks/useForm";
 
 import "./booking.css";
@@ -12,6 +9,10 @@ import "./booking.css";
 export default function BookingScreen() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.booking);
+
+  const [bookings, setBookings] = useState([...state]);
+
+  console.log(bookings);
 
   const [formValues, handleInputChanged] = useForm({
     email: "contacto@tuten.cl",
@@ -26,24 +27,20 @@ export default function BookingScreen() {
   const { bookingFilterValue, bookingFilter, bookingField } = filterValues;
 
   const handleSubmitFilter = () => {
-    if (!bookingFilterValue) {
-      dispatch(startLoadBookingByEmail(formValues.email));
-    } else {
-      if (bookingField === "bookingId") {
-        dispatch(
-          filterBookingById({
-            value: bookingFilterValue,
-            filtro: bookingFilter,
-          })
-        );
-      } else if (bookingField === "bookingPrice") {
-        dispatch(
-          filterBookingByPrice({
-            value: bookingFilterValue,
-            filtro: bookingFilter,
-          })
-        );
-      }
+    if (bookingField === "bookingId") {
+      const result = getBookingByIdAndFilter({
+        state: state,
+        value: bookingFilterValue,
+        filter: bookingFilter,
+      });
+      setBookings(result);
+    } else if (bookingField === "bookingPrice") {
+      const result = getBookingByPriceAndFilter({
+        state: state,
+        value: bookingFilterValue,
+        filter: bookingFilter,
+      });
+      setBookings(result);
     }
   };
 
@@ -124,7 +121,7 @@ export default function BookingScreen() {
           </tr>
         </thead>
         <tbody className="bg-white">
-          {state.map((booking) => (
+          {bookings.map((booking) => (
             <tr key={booking.bookingId}>
               <th scope="row">{booking.bookingId}</th>
               <td>{`${booking.firstName} ${booking.lastName}`}</td>
