@@ -135,7 +135,7 @@ export default function BookingScreen() {
             </tr>
           ))}
 
-          {state.length === 0 && (
+          {bookings.length === 0 && (
             <tr>
               <td colSpan="5">
                 <p className="text-center">No Hay registros para el cliente</p>
