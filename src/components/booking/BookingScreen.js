@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { startLoadBookingByEmail } from "../../duck/booking";
-import { getBookingByIdAndFilter, getBookingByPriceAndFilter } from "../../duck/selectors";
+import {
+  getBookingByIdAndFilter,
+  getBookingByPriceAndFilter,
+} from "../../duck/selectors";
 import useForm from "../hooks/useForm";
 
 import "./booking.css";
@@ -9,8 +12,7 @@ import "./booking.css";
 export default function BookingScreen() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.booking);
-
-  const [bookings, setBookings] = useState([...state]);
+  const [bookings, setBookings] = useState([]);
 
   const [formValues, handleInputChanged] = useForm({
     email: "contacto@tuten.cl",
@@ -45,6 +47,10 @@ export default function BookingScreen() {
   useEffect(() => {
     dispatch(startLoadBookingByEmail(formValues.email));
   }, [dispatch, formValues]);
+
+  useEffect(() => {
+    setBookings([...state]);
+  }, [state]);
 
   const convertUnixToDate = (unix_timestamp) => {
     var date = new Date(unix_timestamp);
